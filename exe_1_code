@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+> refine_original1 <- read.csv("C:/Users/Bhavna/Desktop/Data Science/Exercise 1 Refine/refine_original1.csv")
+>   View(refine_original1)
+
+install.package("tidyverse") 
+library(dplyr) 
+library(tidyr)
+refine_original1 <- refine_original1 %>% arrange(company)
+refine_original1 <- refine_original1 %>% mutate(company=tolower(company))
+refine_original1 <- refine_original1 %>% mutate(company = gsub("^a..*","akzo",company))
+refine_original1 <- refine_original1 %>% mutate(company = gsub ("^[p|f]..*","philips",company))
+refine_original1 <- refine_original1 %>% mutate(company = gsub("^u..*","unilever",company))
+refine_original1 <- separate(refine_original1, Product.code...number,c("product_code","product_number"))
+refine_original1 <- refine_original1 %>% mutate(product_categories = product_code)
+refine_original1 <- refine_original1 %>% mutate(product_categories = gsub("q","tablet",product_categories))
+refine_original1 <- refine_original1 %>% mutate(product_categories = gsub("v","Tv",product_categories))
+refine_original1 <- refine_original1 %>% mutate(product_categories = gsub("p","smartphone",product_categories))
+refine_original1 <- refine_original1 %>% mutate(product_categories = gsub("x","laptop",product_categories))
+refine_original1 <- refine_original1 %>% unite(full_address,address,city,country,sep = ",")
+
+refine_original1 <- refine_original1 %>% mutate(company_akzo = ifelse(company == 'akzo',1,0))
+refine_original1 <- refine_original1 %>% mutate(company_philips = ifelse(company == 'philips',1,0))
+refine_original1 <- refine_original1 %>% mutate(company_unilever = ifelse(company == 'unilever',1,0))
+refine_original1 <- refine_original1 %>% mutate(company_van_houten = ifelse(company == 'van houten',1,0))
+refine_original1 <- refine_original1 %>% mutate(product_smartphone = ifelse(product_categories == 'smartphone',1,0))
+refine_original1 <- refine_original1 %>% mutate(product_laptop = ifelse(product_categories == 'laptop',1,0))
+refine_original1 <- refine_original1 %>% mutate(product_tv = ifelse(product_categories == 'Tv',1,0))
+refine_original1 <- refine_original1 %>% mutate(product_tablet = ifelse(product_categories == 'tablet',1,0))
